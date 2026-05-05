@@ -1,145 +1,175 @@
 %% =============================================================
 %% Red Hat Technical Document Template
-%% Compile with: xelatex redhat-doc.tex
+%% Compatible with: pdflatex, xelatex, lualatex
+%% Tested on: Overleaf (pdflatex engine)
+%%
+%% Usage on Overleaf:
+%%   1. Upload this .tex file to a new Overleaf project
+%%   2. Set compiler to pdflatex (Menu > Compiler)
+%%   3. Click Compile
 %% =============================================================
 \documentclass[11pt,a4paper]{article}
 
-%% ---- Core Packages ----
+%% ---- Encoding & Language ----
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{geometry}
+\usepackage[english]{babel}
+
+%% ---- pdflatex-compatible Fonts ----
+%% Uses 'helvet' (Helvetica clone) as a clean sans-serif
+%% matching Red Hat Display's geometric sans-serif style.
+\usepackage[scaled=0.92]{helvet}
+\usepackage{courier}
+\renewcommand{\familydefault}{\sfdefault}
+
+%% ---- Core Layout & Color Packages ----
+\usepackage[a4paper, left=25mm, right=25mm, top=30mm, bottom=30mm, headheight=20mm]{geometry}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{microtype}
+
+%% ---- Section Titles ----
 \usepackage{titlesec}
+
+%% ---- Headers & Footers ----
 \usepackage{fancyhdr}
+
+%% ---- Hyperlinks ----
 \usepackage{hyperref}
-\usepackage{fontspec}
-\usepackage{tcolorbox}
+
+%% ---- Callout Boxes ----
+\usepackage[most]{tcolorbox}
+
+%% ---- Code Listings ----
 \usepackage{listings}
-\usepackage{enumitem}
+
+%% ---- Tables ----
 \usepackage{tabularx}
 \usepackage{booktabs}
+
+%% ---- Lists ----
+\usepackage{enumitem}
+
+%% ---- Placeholder Text ----
 \usepackage{lipsum}
 
-%% ---- Page Geometry ----
-\geometry{
-    a4paper,
-    left=25mm,
-    right=25mm,
-    top=30mm,
-    bottom=30mm,
-    headheight=20mm
-}
+%% ---- Page Color (for title page) ----
+\usepackage{pagecolor}
+\usepackage{afterpage}
 
-%% ---- Red Hat Brand Colors ----
+%% =============================================================
+%%  RED HAT BRAND COLORS
+%% =============================================================
 \definecolor{RHRed}{HTML}{EE0000}
 \definecolor{RHBlack}{HTML}{000000}
 \definecolor{RHWhite}{HTML}{FFFFFF}
 \definecolor{RHDarkGray}{HTML}{292929}
 \definecolor{RHLightGray}{HTML}{E0E0E0}
-\definecolor{RHDarkPurple}{HTML}{21134d}
+\definecolor{RHDarkPurple}{HTML}{21134D}
 \definecolor{RHCodeBg}{HTML}{1E1E1E}
 \definecolor{RHCodeFg}{HTML}{D4D4D4}
+\definecolor{RHGreen}{HTML}{3E8914}
+\definecolor{RHCyan}{HTML}{007A87}
 
-%% ---- Red Hat Fonts (requires XeLaTeX) ----
-\setmainfont{Red Hat Text}[
-    BoldFont = Red Hat Text Bold,
-    ItalicFont = Red Hat Text Italic
-]
-\setsansfont{Red Hat Display}[
-    BoldFont = Red Hat Display Bold,
-    ItalicFont = Red Hat Display Italic
-]
-\setmonofont{Red Hat Mono}[
-    BoldFont = Red Hat Mono Bold,
-    ItalicFont = Red Hat Mono Italic
-]
-
-%% ---- Section Title Formatting ----
+%% =============================================================
+%%  SECTION TITLE FORMATTING
+%% =============================================================
 \titleformat{\section}
-  {\sffamily\Large\bfseries\color{RHRed}}{\thesection}{1em}{}[\color{RHRed}\rule{\linewidth}{0.4pt}]
+  {\Large\bfseries\color{RHRed}}{\thesection}{1em}{}
+  [\color{RHRed}\titlerule]
 \titleformat{\subsection}
-  {\sffamily\large\bfseries\color{RHBlack}}{\thesubsection}{1em}{}
+  {\large\bfseries\color{RHBlack}}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}
-  {\sffamily\normalsize\bfseries\color{RHDarkGray}}{\thesubsubsection}{1em}{}
+  {\normalsize\bfseries\color{RHDarkGray}}{\thesubsubsection}{1em}{}
 
-%% ---- Header and Footer ----
+%% =============================================================
+%%  HEADER AND FOOTER
+%% =============================================================
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\sffamily\small\textcolor{RHDarkGray}{\textbf{Red Hat Technical Document}}}
-\fancyhead[R]{\sffamily\small\textcolor{RHRed}{\textbf{PUBLIC}}}
-\fancyfoot[L]{\sffamily\small\textcolor{RHDarkGray}{\copyright~\the\year~Red Hat, Inc.}}
-\fancyfoot[R]{\sffamily\small\textcolor{RHDarkGray}{\thepage}}
+\fancyhead[L]{\small\textbf{\textcolor{RHDarkGray}{Red Hat Technical Document}}}
+\fancyhead[R]{\small\textbf{\textcolor{RHRed}{PUBLIC}}}
+\fancyfoot[L]{\small\textcolor{RHDarkGray}{\copyright~\the\year~Red Hat, Inc.}}
+\fancyfoot[R]{\small\textcolor{RHDarkGray}{\thepage}}
 \renewcommand{\headrulewidth}{1.5pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{RHRed}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\headrule}{%
+  \hbox to\headwidth{\color{RHRed}\leaders\hrule height \headrulewidth\hfill}}
 \renewcommand{\footrulewidth}{0.4pt}
-\renewcommand{\footrule}{\hbox to\headwidth{\color{RHLightGray}\leaders\hrule height \footrulewidth\hfill}}
+\renewcommand{\footrule}{%
+  \hbox to\headwidth{\color{RHLightGray}\leaders\hrule height \footrulewidth\hfill}}
 
-%% ---- Hyperlinks ----
+%% =============================================================
+%%  HYPERLINKS
+%% =============================================================
 \hypersetup{
-    colorlinks=true,
-    linkcolor=RHRed,
-    urlcolor=RHRed,
-    citecolor=RHRed,
-    pdftitle={Red Hat Technical Document Template},
-    pdfauthor={Gabriel Tavares},
-    pdfsubject={Red Hat LaTeX Template}
+    colorlinks  = true,
+    linkcolor   = RHRed,
+    urlcolor    = RHRed,
+    citecolor   = RHRed,
+    pdftitle    = {Red Hat Technical Document Template},
+    pdfauthor   = {Gabriel Tavares},
+    pdfsubject  = {Red Hat LaTeX Template -- Overleaf Compatible}
 }
 
-%% ---- Custom Callout Boxes ----
-\tcbuselibrary{skins,breakable}
+%% =============================================================
+%%  CUSTOM CALLOUT BOXES
+%% =============================================================
+\tcbuselibrary{skins, breakable}
 
 \newtcolorbox{rhnote}{
-    enhanced,
-    colback=RHLightGray!30,
-    colframe=RHRed,
-    title=\sffamily\textbf{Note},
-    coltitle=RHWhite,
-    fonttitle=\bfseries,
-    attach boxed title to top left={yshift=-2mm, xshift=4mm},
-    boxed title style={colback=RHRed, colframe=RHRed}
+    enhanced, breakable,
+    colback   = RHLightGray!25,
+    colframe  = RHRed,
+    coltitle  = RHWhite,
+    fonttitle = \bfseries,
+    title     = {Note},
+    attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+    boxed title style = {colback=RHRed, colframe=RHRed, sharp corners}
 }
 
 \newtcolorbox{rhwarning}{
-    enhanced,
-    colback=RHRed!5,
-    colframe=RHRed,
-    title=\sffamily\textbf{Warning},
-    coltitle=RHWhite,
-    fonttitle=\bfseries,
-    attach boxed title to top left={yshift=-2mm, xshift=4mm},
-    boxed title style={colback=RHRed, colframe=RHRed}
+    enhanced, breakable,
+    colback   = RHRed!6,
+    colframe  = RHRed,
+    coltitle  = RHWhite,
+    fonttitle = \bfseries,
+    title     = {Warning},
+    attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+    boxed title style = {colback=RHRed, colframe=RHRed, sharp corners}
 }
 
 \newtcolorbox{rhtip}{
-    enhanced,
-    colback=RHDarkPurple!5,
-    colframe=RHDarkPurple,
-    title=\sffamily\textbf{Tip},
-    coltitle=RHWhite,
-    fonttitle=\bfseries,
-    attach boxed title to top left={yshift=-2mm, xshift=4mm},
-    boxed title style={colback=RHDarkPurple, colframe=RHDarkPurple}
+    enhanced, breakable,
+    colback   = RHDarkPurple!6,
+    colframe  = RHDarkPurple,
+    coltitle  = RHWhite,
+    fonttitle = \bfseries,
+    title     = {Tip},
+    attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+    boxed title style = {colback=RHDarkPurple, colframe=RHDarkPurple, sharp corners}
 }
 
-%% ---- Code Listings ----
+%% =============================================================
+%%  CODE LISTINGS  (dark theme)
+%% =============================================================
 \lstset{
-    backgroundcolor=\color{RHCodeBg},
-    basicstyle=\ttfamily\small\color{RHCodeFg},
-    keywordstyle=\color{cyan},
-    commentstyle=\color{green!60!black},
-    stringstyle=\color{orange},
-    frame=single,
-    rulecolor=\color{RHRed},
-    breaklines=true,
-    showstringspaces=false,
-    numbers=left,
-    numberstyle=\tiny\color{RHDarkGray},
-    numbersep=8pt
+    backgroundcolor = \color{RHCodeBg},
+    basicstyle      = \ttfamily\small\color{RHCodeFg},
+    keywordstyle    = \color{RHCyan}\bfseries,
+    commentstyle    = \color{RHGreen},
+    stringstyle     = \color{orange},
+    frame           = single,
+    rulecolor       = \color{RHRed},
+    breaklines      = true,
+    showstringspaces= false,
+    numbers         = left,
+    numberstyle     = \tiny\color{RHDarkGray},
+    numbersep       = 8pt,
+    xleftmargin     = 12pt
 }
 
-%% ---- Bullet Points with Red Hat Style ----
-\setlist[itemize]{label=\textcolor{RHRed}{\textbf{\textrightarrow}}}
+%% ---- Bullet style: red square marker ----
+\setlist[itemize]{label=\textcolor{RHRed}{\rule{0.6em}{0.6em}}}
 
 %% =============================================================
 %%  DOCUMENT BEGINS
@@ -147,41 +177,37 @@
 \begin{document}
 
 %% ---- Title Page ----
-\begin{titlepage}
-    \pagecolor{RHRed}
-    \color{RHWhite}
-    \vspace*{2cm}
-    
-    \begin{flushleft}
-        \sffamily
-        {\Huge \bfseries Red Hat Technical\\[0.3cm]Document Template}
-        \vspace{0.5cm}
-        
-        \noindent\rule{\textwidth}{1pt}
-        \vspace{0.3cm}
-        
-        {\Large A Professional LaTeX Template\\following Red Hat Brand Guidelines}
-    \end{flushleft}
-    
-    \vfill
-    
-    \begin{flushleft}
-        \sffamily
-        \begin{tabular}{ll}
-            \textbf{Author:}  & Gabriel Tavares \\
-            \textbf{Company:} & Red Hat, Inc.   \\
-            \textbf{Date:}    & \today          \\
-            \textbf{Version:} & 1.0             \\
-        \end{tabular}
-    \end{flushleft}
-    
-    \vspace{1cm}
-    \begin{flushright}
-        \sffamily\LARGE\bfseries RED HAT
-    \end{flushright}
-\end{titlepage}
+\newpagecolor{RHRed}
+\thispagestyle{empty}
+\color{RHWhite}
 
-\nopagecolor % Restore white background
+\vspace*{2.5cm}
+
+{\fontsize{28}{34}\selectfont\bfseries Red Hat Technical\\[0.3cm]Document Template}
+
+\vspace{0.6cm}
+\noindent\textcolor{RHWhite}{\rule{\textwidth}{1pt}}
+\vspace{0.4cm}
+
+{\large A Professional \LaTeX{} Template\\following Red Hat Brand Guidelines}
+
+\vfill
+
+\begin{tabular}{ll}
+    \textbf{Author:}  & Gabriel Tavares \\[2pt]
+    \textbf{Company:} & Red Hat, Inc.   \\[2pt]
+    \textbf{Date:}    & \today          \\[2pt]
+    \textbf{Version:} & 1.0             \\
+\end{tabular}
+
+\vspace{1.5cm}
+\begin{flushright}
+    {\LARGE\bfseries RED HAT}
+\end{flushright}
+
+\afterpage{\restorepagecolor}
+\newpage
+\color{RHBlack}
 
 %% ---- Table of Contents ----
 \tableofcontents
@@ -191,7 +217,7 @@
 \section{Introduction}
 %% =============================================================
 
-This document serves as a professional technical writing template aligned with Red Hat's corporate brand guidelines. It is designed to be compiled using \texttt{xelatex} to take full advantage of the official \textbf{Red Hat Display}, \textbf{Red Hat Text}, and \textbf{Red Hat Mono} typefaces, all of which are open-source and freely available.
+This document serves as a professional technical writing template aligned with Red Hat's corporate brand guidelines. It is designed to compile with \textbf{pdflatex}, \textbf{xelatex}, or \textbf{lualatex}, making it fully compatible with \href{https://www.overleaf.com}{Overleaf} without any engine changes.
 
 The template provides a consistent visual identity for whitepapers, architecture guides, solution briefs, and internal technical reports. All color definitions, typography choices, and layout conventions follow the official Red Hat Brand Standards.
 
@@ -204,11 +230,11 @@ The following colors are pre-configured and available throughout the document:
     \toprule
     \textbf{Color Name} & \textbf{Hex Code} & \textbf{Usage} \\
     \midrule
-    \textcolor{RHRed}{\rule{1em}{1em}} Red Hat Red & \texttt{\#EE0000} & Primary accent, section headers, borders \\
-    \textcolor{RHBlack}{\rule{1em}{1em}} Black & \texttt{\#000000} & Body text, headings \\
-    \textcolor{RHDarkGray}{\rule{1em}{1em}} Dark Gray & \texttt{\#292929} & Secondary text, footers \\
-    \textcolor{RHLightGray}{\rule{1em}{1em}} Light Gray & \texttt{\#E0E0E0} & Backgrounds, callout boxes \\
-    \textcolor{RHDarkPurple}{\rule{1em}{1em}} Dark Purple & \texttt{\#21134D} & Alternative accent, tip boxes \\
+    \textcolor{RHRed}{\rule{1em}{1em}}~Red Hat Red  & \texttt{\#EE0000} & Primary accent, section headers, borders \\
+    \textcolor{RHBlack}{\rule{1em}{1em}}~Black       & \texttt{\#000000} & Body text, headings \\
+    \textcolor{RHDarkGray}{\rule{1em}{1em}}~Dark Gray & \texttt{\#292929} & Secondary text, footers \\
+    \textcolor{RHLightGray}{\rule{1em}{1em}}~Light Gray & \texttt{\#E0E0E0} & Backgrounds, callout boxes \\
+    \textcolor{RHDarkPurple}{\rule{1em}{1em}}~Dark Purple & \texttt{\#21134D} & Alternative accent, tip boxes \\
     \bottomrule
 \end{tabularx}
 \end{center}
@@ -241,21 +267,23 @@ This is a \textbf{Tip} box. Use it to share best practices, shortcuts, or recomm
 
 Technical documents frequently require the inclusion of code, configuration files, or command-line instructions. The \texttt{lstlisting} environment is pre-configured with a dark theme consistent with Red Hat's developer tooling aesthetics.
 
-\begin{lstlisting}[language=bash, caption={Example: Deploying an application on OpenShift}]
+\begin{lstlisting}[language=bash, caption={Deploying an application on OpenShift}]
 # Login to OpenShift cluster
-oc login --token=<your-token> --server=https://api.cluster.example.com:6443
+oc login --token=<your-token> \
+         --server=https://api.cluster.example.com:6443
 
 # Create a new project
 oc new-project my-application
 
 # Deploy from a container image
-oc new-app --image=registry.access.redhat.com/ubi9/ubi:latest
+oc new-app \
+  --image=registry.access.redhat.com/ubi9/ubi:latest
 
 # Expose the service
 oc expose svc/ubi
 \end{lstlisting}
 
-\begin{lstlisting}[language=bash, caption={Example: Ansible Playbook for HTTPD installation}]
+\begin{lstlisting}[language=bash, caption={Ansible Playbook -- Install and configure HTTPD}]
 ---
 - name: Install and configure HTTPD
   hosts: webservers
@@ -292,8 +320,8 @@ The following table provides a summary of the key components in a typical Red Ha
     \midrule
     Container Platform & OpenShift & Enterprise Kubernetes platform for application deployment and management \\
     Automation         & Ansible   & Agentless IT automation for provisioning, configuration, and orchestration \\
-    OS                 & RHEL      & Enterprise Linux providing a stable, secure foundation \\
-    Service Mesh       & Istio / OpenShift Service Mesh & Traffic management and observability for microservices \\
+    Operating System   & RHEL      & Enterprise Linux providing a stable, secure, and certified foundation \\
+    Service Mesh       & OpenShift Service Mesh & Traffic management and observability for microservices \\
     \bottomrule
 \end{tabularx}
 \end{center}
@@ -306,7 +334,7 @@ When designing a solution based on Red Hat technologies, the following principle
     \item \textbf{Security by Default:} All Red Hat products are built with security in mind, leveraging SELinux, FIPS compliance, and supply chain security.
     \item \textbf{Open Standards:} Red Hat's commitment to open source ensures interoperability and avoids vendor lock-in.
     \item \textbf{Hybrid Cloud Portability:} Applications should be designed to run consistently across on-premises, public cloud, and edge environments.
-    \item \textbf{Automation First:} Leverage Ansible Automation Platform to reduce manual toil and enforce consistent configurations.
+    \item \textbf{Automation First:} Leverage Ansible Automation Platform to reduce manual toil and enforce consistent configurations at scale.
 \end{itemize}
 
 %% =============================================================
@@ -315,12 +343,12 @@ When designing a solution based on Red Hat technologies, the following principle
 
 \lipsum[3]
 
-\vspace{1em}
+\vspace{1.5em}
 \noindent\textcolor{RHRed}{\rule{\textwidth}{1.5pt}}
 
 \vspace{0.5em}
 \begin{center}
-    \sffamily\large\textbf{\textcolor{RHRed}{RED HAT}} \\
+    \large\textbf{\textcolor{RHRed}{RED HAT}} \\[2pt]
     \small\textcolor{RHDarkGray}{Be open. Be brave. Be Red Hat.}
 \end{center}
 
