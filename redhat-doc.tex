@@ -1,11 +1,10 @@
 %% =============================================================
 %% Red Hat Technical Document Template
-%% Compatible with: pdflatex, xelatex, lualatex
-%% Tested on: Overleaf (pdflatex engine)
+%% Engine: pdflatex (Overleaf default) -- NO xelatex required
 %%
 %% Usage on Overleaf:
 %%   1. Upload this .tex file to a new Overleaf project
-%%   2. Set compiler to pdflatex (Menu > Compiler)
+%%   2. Leave compiler as pdflatex (default)
 %%   3. Click Compile
 %% =============================================================
 \documentclass[11pt,a4paper]{article}
@@ -16,17 +15,22 @@
 \usepackage[english]{babel}
 
 %% ---- pdflatex-compatible Fonts ----
-%% Uses 'helvet' (Helvetica clone) as a clean sans-serif
-%% matching Red Hat Display's geometric sans-serif style.
+%% Helvetica clone (geometric sans-serif, close to Red Hat Display)
 \usepackage[scaled=0.92]{helvet}
 \usepackage{courier}
 \renewcommand{\familydefault}{\sfdefault}
 
-%% ---- Core Layout & Color Packages ----
-\usepackage[a4paper, left=25mm, right=25mm, top=30mm, bottom=30mm, headheight=20mm]{geometry}
+%% ---- Page Layout ----
+\usepackage[a4paper,
+            left=25mm, right=25mm,
+            top=30mm,  bottom=30mm,
+            headheight=20mm]{geometry}
+
+%% ---- Colors ----
 \usepackage{xcolor}
+
+%% ---- Graphics ----
 \usepackage{graphicx}
-\usepackage{microtype}
 
 %% ---- Section Titles ----
 \usepackage{titlesec}
@@ -37,8 +41,9 @@
 %% ---- Hyperlinks ----
 \usepackage{hyperref}
 
-%% ---- Callout Boxes ----
-\usepackage[most]{tcolorbox}
+%% ---- Callout Boxes (explicit libraries only -- avoids fontspec on TeX Live 2025) ----
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
 
 %% ---- Code Listings ----
 \usepackage{listings}
@@ -53,7 +58,7 @@
 %% ---- Placeholder Text ----
 \usepackage{lipsum}
 
-%% ---- Page Color (for title page) ----
+%% ---- Title Page Background Color ----
 \usepackage{pagecolor}
 \usepackage{afterpage}
 
@@ -102,20 +107,19 @@
 %%  HYPERLINKS
 %% =============================================================
 \hypersetup{
-    colorlinks  = true,
-    linkcolor   = RHRed,
-    urlcolor    = RHRed,
-    citecolor   = RHRed,
-    pdftitle    = {Red Hat Technical Document Template},
-    pdfauthor   = {Gabriel Tavares},
-    pdfsubject  = {Red Hat LaTeX Template -- Overleaf Compatible}
+    colorlinks = true,
+    linkcolor  = RHRed,
+    urlcolor   = RHRed,
+    citecolor  = RHRed,
+    pdftitle   = {Red Hat Technical Document Template},
+    pdfauthor  = {Gabriel Tavares},
+    pdfsubject = {Red Hat LaTeX Template -- Overleaf Compatible}
 }
 
 %% =============================================================
 %%  CUSTOM CALLOUT BOXES
+%%  Using only 'skins' and 'breakable' -- safe on all TeX Live versions
 %% =============================================================
-\tcbuselibrary{skins, breakable}
-
 \newtcolorbox{rhnote}{
     enhanced, breakable,
     colback   = RHLightGray!25,
@@ -150,22 +154,22 @@
 }
 
 %% =============================================================
-%%  CODE LISTINGS  (dark theme)
+%%  CODE LISTINGS  (dark theme, no minted)
 %% =============================================================
 \lstset{
-    backgroundcolor = \color{RHCodeBg},
-    basicstyle      = \ttfamily\small\color{RHCodeFg},
-    keywordstyle    = \color{RHCyan}\bfseries,
-    commentstyle    = \color{RHGreen},
-    stringstyle     = \color{orange},
-    frame           = single,
-    rulecolor       = \color{RHRed},
-    breaklines      = true,
-    showstringspaces= false,
-    numbers         = left,
-    numberstyle     = \tiny\color{RHDarkGray},
-    numbersep       = 8pt,
-    xleftmargin     = 12pt
+    backgroundcolor  = \color{RHCodeBg},
+    basicstyle       = \ttfamily\small\color{RHCodeFg},
+    keywordstyle     = \color{RHCyan}\bfseries,
+    commentstyle     = \color{RHGreen},
+    stringstyle      = \color{orange},
+    frame            = single,
+    rulecolor        = \color{RHRed},
+    breaklines       = true,
+    showstringspaces = false,
+    numbers          = left,
+    numberstyle      = \tiny\color{RHDarkGray},
+    numbersep        = 8pt,
+    xleftmargin      = 12pt
 }
 
 %% ---- Bullet style: red square marker ----
@@ -217,7 +221,7 @@
 \section{Introduction}
 %% =============================================================
 
-This document serves as a professional technical writing template aligned with Red Hat's corporate brand guidelines. It is designed to compile with \textbf{pdflatex}, \textbf{xelatex}, or \textbf{lualatex}, making it fully compatible with \href{https://www.overleaf.com}{Overleaf} without any engine changes.
+This document serves as a professional technical writing template aligned with Red Hat's corporate brand guidelines. It is designed to compile with \textbf{pdflatex}, making it fully compatible with \href{https://www.overleaf.com}{Overleaf} using the default engine without any configuration changes.
 
 The template provides a consistent visual identity for whitepapers, architecture guides, solution briefs, and internal technical reports. All color definitions, typography choices, and layout conventions follow the official Red Hat Brand Standards.
 
@@ -230,9 +234,9 @@ The following colors are pre-configured and available throughout the document:
     \toprule
     \textbf{Color Name} & \textbf{Hex Code} & \textbf{Usage} \\
     \midrule
-    \textcolor{RHRed}{\rule{1em}{1em}}~Red Hat Red  & \texttt{\#EE0000} & Primary accent, section headers, borders \\
-    \textcolor{RHBlack}{\rule{1em}{1em}}~Black       & \texttt{\#000000} & Body text, headings \\
-    \textcolor{RHDarkGray}{\rule{1em}{1em}}~Dark Gray & \texttt{\#292929} & Secondary text, footers \\
+    \textcolor{RHRed}{\rule{1em}{1em}}~Red Hat Red    & \texttt{\#EE0000} & Primary accent, section headers, borders \\
+    \textcolor{RHBlack}{\rule{1em}{1em}}~Black         & \texttt{\#000000} & Body text, headings \\
+    \textcolor{RHDarkGray}{\rule{1em}{1em}}~Dark Gray  & \texttt{\#292929} & Secondary text, footers \\
     \textcolor{RHLightGray}{\rule{1em}{1em}}~Light Gray & \texttt{\#E0E0E0} & Backgrounds, callout boxes \\
     \textcolor{RHDarkPurple}{\rule{1em}{1em}}~Dark Purple & \texttt{\#21134D} & Alternative accent, tip boxes \\
     \bottomrule
